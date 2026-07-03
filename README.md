@@ -3,8 +3,7 @@
 A multi-source e-commerce scraper and scoring engine that finds products worth reselling by combining price positioning, demand signals, and trend data (Google Trends + Reddit) into a single 0–100 "potential score" with a buy/test/avoid recommendation.
 
 <!-- TODO: confirm — add a one-line author/purpose blurb if this was built for a specific course (project name suggests "Projet PFA", i.e. a French-system final-year project) -->
-
-## Why this exists
+⚠️ **Note:** yes, I did use Claude for this project because I wanted to see how much I can increase my productivity while working on this project and to adapt to the new job market trend (using ai).
 
 Dropshippers and small e-commerce sellers manually check multiple marketplaces (Jumia, Avito, Amazon, AliExpress, Temu, ...) to spot which products are cheap relative to the market, trending, and not oversaturated. This project automates that: it scrapes several sources for a given search query, cross-references live demand signals, and scores each listing so a seller can decide how many units to order.
 
