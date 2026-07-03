@@ -178,6 +178,4 @@ Projet_PFA_SmartScraper/
 ├── components.jsx, data.js, tweaks-panel.jsx  # supporting files for the standalone prototype
 ```
 
-## License
 
-No `LICENSE` file is present in this repository. <!-- TODO: add a license if you intend this to be reused/forked -->
