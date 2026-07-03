@@ -33,31 +33,6 @@ Dropshippers and small e-commerce sellers manually check multiple marketplaces (
 
 No test runner, linter, Docker setup, or CI config is present in the repo.
 
-## Architecture overview
-
-```
-┌─────────────────────────┐        HTTP (axios)        ┌───────────────────────────┐
-│   React SPA (Vite)      │ ─────────────────────────▶ │   Express API (:5000)     │
-│   :5173                 │   /api/*  (dev: Vite proxy) │                           │
-│  Pages: Suggestions,    │ ◀───────────────────────── │  routes/*.js              │
-│  Dashboard, Analysis,   │                             └─────────────┬─────────────┘
-│  Stores, Stock, Reports,│                                           │
-│  Settings               │                     ┌─────────────────────┼─────────────────────┐
-└─────────────────────────┘                     ▼                     ▼                     ▼
-                                     ┌───────────────────┐  ┌───────────────────┐  ┌──────────────────┐
-                                     │ scraperService.js  │  │  trendService.js  │  │  node-cron jobs   │
-                                     │ (per-source        │  │  Google Trends +  │  │  every 6h: seed   │
-                                     │  scrapers, scoring,│◀─│  Reddit + Google  │  │  every 8h: auto-  │
-                                     │  upsert)           │  │  Autocomplete     │  │  discover trends  │
-                                     └─────────┬──────────┘  └───────────────────┘  └──────────────────┘
-                                               │
-                       ┌───────────────────────┼───────────────────────┐
-                       ▼                       ▼                       ▼
-              axios + cheerio         puppeteer-extra-stealth      MongoDB
-              (jumia, avito,          (headless.js — scaffolded    (ScrapedProduct,
-              amazon, hmall,          for temu/alibaba; currently  ScrapingJob, +
-              marjane, ...)           blocked by target sites)     legacy collections)
-```
 
 - The frontend never talks to MongoDB directly; everything goes through the Express REST API, proxied by Vite (`/api` → `http://localhost:5000`) in dev, or via `VITE_API_BASE_URL` in a production build.
 - Scraping runs asynchronously: `POST /api/scrape/run` creates a `ScrapingJob` document and returns immediately; the actual scraping + scoring happens in the background and the frontend polls `GET /api/scrape/jobs/:id`.
